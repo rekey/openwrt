@@ -1,4 +1,4 @@
-name: Build immortalwrt
+name: Build openwrt-base image
 
 on:
   repository_dispatch:
