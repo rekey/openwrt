@@ -29,3 +29,13 @@ jobs:
             texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd
           sudo mkdir -p /workdir
           sudo chown $USER:$GROUPS /workdir
+      - name: Clone source code
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          cd /workdir
+          git clone https://github.com/immortalwrt/immortalwrt
+          cd ./immortalwrt
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
+
