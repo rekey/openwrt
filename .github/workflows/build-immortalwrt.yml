@@ -44,5 +44,7 @@ jobs:
           echo 'src-git mihomo https://github.com/morytyann/OpenWrt-mihomo' >> feeds.conf.default
           ./scripts/feeds update -a
           ./scripts/feeds install -a
+          rm ./.config
+          wget https://raw.githubusercontent.com/rekey/openwrt/refs/heads/main/.config
           make V=s -j$(nproc)
 
