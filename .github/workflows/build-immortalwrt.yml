@@ -35,7 +35,7 @@ jobs:
         run: |
           cd /workdir
           git clone https://github.com/immortalwrt/immortalwrt
-      - name: build
+      - name: pre build
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
@@ -44,6 +44,12 @@ jobs:
           echo 'src-git mihomo https://github.com/morytyann/OpenWrt-mihomo' >> feeds.conf.default
           ./scripts/feeds update -a
           ./scripts/feeds install -a
+      - name: build
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          cd /workdir
+          cd ./immortalwrt
           wget https://raw.githubusercontent.com/rekey/openwrt/refs/heads/main/.config
           make V=s -j$(nproc)
 
