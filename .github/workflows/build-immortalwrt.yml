@@ -35,7 +35,7 @@ jobs:
         run: |
           cd /workdir
           git clone https://github.com/immortalwrt/immortalwrt
-      - name: Clone source code
+      - name: build
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
