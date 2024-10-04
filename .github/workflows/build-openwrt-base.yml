@@ -33,10 +33,14 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           wget https://raw.githubusercontent.com/rekey/docker/refs/heads/master/openwrt-base/Dockerfile
+          echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base build start
           docker build . -t ${{ secrets.DOCKER_USER }}/openwrt-base
+          echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base build done
       - name: Push image
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
           docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+          echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base push start
           docker push ${{ secrets.DOCKER_USER }}/openwrt-debian-base
+          echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base push done
