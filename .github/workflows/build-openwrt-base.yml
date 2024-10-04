@@ -24,16 +24,14 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          wget https://get.docker.com -o docker-install.sh
-          sudo bash ./docker-install.sh
-          sudo systemctl enable --now docker
+          curl -fsSL https://get.docker.com | sudo bash
       
-      # - name: Build image
-      #   env:
-      #     DEBIAN_FRONTEND: noninteractive
-      #   run: |
-      #     wget https://raw.githubusercontent.com/rekey/docker/refs/heads/master/openwrt-base/Dockerfile
-      #     docker build -t rekey/openwrt-base
+      - name: Build image
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          wget https://raw.githubusercontent.com/rekey/docker/refs/heads/master/openwrt-base/Dockerfile
+          docker build -t rekey/openwrt-base
           
           
 
