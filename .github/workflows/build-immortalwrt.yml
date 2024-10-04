@@ -35,7 +35,14 @@ jobs:
         run: |
           cd /workdir
           git clone https://github.com/immortalwrt/immortalwrt
+      - name: Clone source code
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          cd /workdir
           cd ./immortalwrt
+          echo 'src-git mihomo https://github.com/morytyann/OpenWrt-mihomo' >> feeds.conf.default
           ./scripts/feeds update -a
           ./scripts/feeds install -a
+          make V=s -j$(nproc)
 
