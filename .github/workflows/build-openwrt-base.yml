@@ -32,11 +32,11 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          wget https://raw.githubusercontent.com/rekey/docker/refs/heads/master/openwrt-base/Dockerfile
+          wget https://raw.githubusercontent.com/rekey/docker/master/openwrt-base/Dockerfile
           echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base build start
           docker build . -t ${{ secrets.DOCKER_USER }}/openwrt-debian-base
           echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base build done
-          
+
       - name: Push image
         env:
           DEBIAN_FRONTEND: noninteractive
