@@ -34,5 +34,5 @@ jobs:
         run: |
           wget https://raw.githubusercontent.com/rekey/docker/refs/heads/master/openwrt-base/Dockerfile
           docker build . -t rekey/openwrt-base
-          docker login -u $DOCKER_USER -p $DOCKER_TOKEN
+          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
           docker push rekey/openwrt-debian-base
