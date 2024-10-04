@@ -18,7 +18,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt update
-          sudo apt install -y curl wget
+          sudo apt install -y curl
           
       - name: Install Docker
         env:
@@ -36,6 +36,7 @@ jobs:
           echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base build start
           docker build . -t ${{ secrets.DOCKER_USER }}/openwrt-debian-base
           echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base build done
+          
       - name: Push image
         env:
           DEBIAN_FRONTEND: noninteractive
