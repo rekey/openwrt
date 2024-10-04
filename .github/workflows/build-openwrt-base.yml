@@ -41,6 +41,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+          docker images
           echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base push start
           docker push ${{ secrets.DOCKER_USER }}/openwrt-debian-base
           echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base push done
