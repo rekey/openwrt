@@ -8,6 +8,8 @@ on:
         description: "SSH connection to Actions"
         required: true
         default: "false"
+env:
+  DOCKER_USER: rekey
 
 jobs:
   build:
@@ -33,15 +35,15 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           wget https://raw.githubusercontent.com/rekey/docker/refs/heads/master/openwrt-base/Dockerfile
-          echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base build start
-          docker build . -t ${{ secrets.DOCKER_USER }}/openwrt-base
-          echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base build done
+          echo $DOCKER_USER/openwrt-debian-base build start
+          docker build . -t $DOCKER_USER/openwrt-base
+          echo $DOCKER_USER/openwrt-debian-base build done
       - name: Push image
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+          docker login -u $DOCKER_USER -p ${{ secrets.DOCKER_TOKEN }}
           docker images
-          echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base push start
-          docker push ${{ secrets.DOCKER_USER }}/openwrt-debian-base
-          echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base push done
+          echo $DOCKER_USER/openwrt-debian-base push start
+          docker push $DOCKER_USER/openwrt-debian-base
+          echo $DOCKER_USER/openwrt-debian-base push done
