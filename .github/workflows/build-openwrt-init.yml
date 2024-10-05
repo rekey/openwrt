@@ -39,11 +39,10 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           wget $DOKCERFILE_DIR/$DOKCERFILE_NAME
-          docker build -t $GHCR/${{ secrets.DOCKER_USER }}/$IMAGE_NAME -f ./$DOKCERFILE_NAME .
+          docker build -t $GHCR/${{ github.actor }}/$IMAGE_NAME -f ./$DOKCERFILE_NAME .
 
       - name: Push image
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          docker login $GHCR -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.GHCR_TOKEN }}
-          docker push $GHCR/${{ secrets.DOCKER_USER }}/$IMAGE_NAME
+          docker push $GHCR/${{ github.actor }}/$IMAGE_NAME
