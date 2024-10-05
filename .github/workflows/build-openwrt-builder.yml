@@ -1,0 +1,43 @@
+name: Build openwrt-debian image
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: "SSH connection to Actions"
+        required: true
+        default: "false"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install curl
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt update
+          sudo apt install -y curl
+          
+      - name: Install Docker
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          curl -fsSL https://get.docker.com | sudo bash
+          sudo usermod -aG docker ${USER}
+          sudo systemctl enable --now docker
+      
+      - name: Build image
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          wget https://github.com/rekey/openwrt/raw/main/Dockerfiles/openwrt-builder.Dockerfile
+          docker build . -t ${{ secrets.DOCKER_USER }}/openwrt-debian
+
+      - name: Push image
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+          docker push ${{ secrets.DOCKER_USER }}/openwrt-builder
