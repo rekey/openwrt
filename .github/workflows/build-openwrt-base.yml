@@ -32,7 +32,7 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          wget https://raw.githubusercontent.com/rekey/docker/master/openwrt-base/Dockerfile
+          wget https://github.com/rekey/docker/raw/master/openwrt-base/Dockerfile
           echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base build start
           docker build . -t ${{ secrets.DOCKER_USER }}/openwrt-debian-base
           echo ${{ secrets.DOCKER_USER }}/openwrt-debian-base build done
