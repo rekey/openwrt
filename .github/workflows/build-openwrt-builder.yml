@@ -9,6 +9,9 @@ on:
         required: true
         default: "false"
 
+env:
+  IMAGE_NAME: openwrt-builder
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,11 +36,11 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           wget https://github.com/rekey/openwrt/raw/main/Dockerfiles/openwrt-builder.Dockerfile
-          docker build . -t ${{ secrets.DOCKER_USER }}/openwrt-debian
+          docker build . -t ${{ secrets.DOCKER_USER }}/$IMAGE_NAME
 
       - name: Push image
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
           docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
-          docker push ${{ secrets.DOCKER_USER }}/openwrt-builder
+          docker push ${{ secrets.DOCKER_USER }}/$IMAGE_NAME
