@@ -18,31 +18,31 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@main
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
       - name: Install curl
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt update
           sudo apt install -y curl wget
-          
-      - name: Install Docker
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: |
-          curl -fsSL https://get.docker.com | sudo bash
-          sudo usermod -aG docker ${USER}
-          sudo systemctl enable --now docker
       
       - name: Build image
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
           wget $DOKCERFILE_DIR/$DOKCERFILE_NAME
-          docker build -t $GHCR/${{ secrets.DOCKER_USER }}/$IMAGE_NAME -f ./$DOKCERFILE_NAME .
+          docker build -t $GHCR/${{ github.actor }}/$IMAGE_NAME -f ./$DOKCERFILE_NAME .
 
       - name: Push image
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          docker login $GHCR -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.GHCR_TOKEN }}
-          docker push $GHCR/${{ secrets.DOCKER_USER }}/$IMAGE_NAME
+          docker push $GHCR/${{ github.actor }}/$IMAGE_NAME
