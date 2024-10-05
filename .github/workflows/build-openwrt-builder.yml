@@ -12,6 +12,7 @@ env:
   IMAGE_NAME: openwrt-builder
   DOKCERFILE_DIR: https://github.com/rekey/openwrt/raw/main/Dockerfiles
   DOKCERFILE_NAME: openwrt-builder.Dockerfile
+  GHCR: ghcr.io
 
 jobs:
   build:
@@ -37,11 +38,11 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           wget $DOKCERFILE_DIR/$DOKCERFILE_NAME
-          docker build -t ${{ secrets.DOCKER_USER }}/$IMAGE_NAME -f ./$DOKCERFILE_NAME .
+          docker build -t $GHCR/${{ secrets.DOCKER_USER }}/$IMAGE_NAME -f ./$DOKCERFILE_NAME .
 
       - name: Push image
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
-          docker push ${{ secrets.DOCKER_USER }}/$IMAGE_NAME
+          docker login $GHCR -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.GHCR_TOKEN }}
+          docker push $GHCR/${{ secrets.DOCKER_USER }}/$IMAGE_NAME
