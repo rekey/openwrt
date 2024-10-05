@@ -18,3 +18,4 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           sudo df -h
+          pwd
