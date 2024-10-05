@@ -23,7 +23,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt update
-          sudo apt install -y curl
+          sudo apt install -y curl wget
           
       - name: Install Docker
         env:
