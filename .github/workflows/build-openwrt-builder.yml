@@ -10,6 +10,8 @@ on:
 
 env:
   IMAGE_NAME: openwrt-builder
+  DOKCERFILE_DIR: https://github.com/rekey/openwrt/raw/main/Dockerfiles
+  DOKCERFILE_NAME: openwrt-builder.Dockerfile
 
 jobs:
   build:
@@ -34,8 +36,8 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          wget https://github.com/rekey/openwrt/raw/main/Dockerfiles/openwrt-builder.Dockerfile
-          docker build . -t ${{ secrets.DOCKER_USER }}/$IMAGE_NAME
+          wget $DOKCERFILE_DIR/$DOKCERFILE_NAME
+          docker build -t ${{ secrets.DOCKER_USER }}/$IMAGE_NAME -f ./$DOKCERFILE_NAME .
 
       - name: Push image
         env:
