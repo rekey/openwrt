@@ -1,5 +1,4 @@
-name: Build openwrt-debian image
-
+name: Build openwrt builder image
 on:
   repository_dispatch:
   workflow_dispatch:
