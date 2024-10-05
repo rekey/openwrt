@@ -1,5 +1,4 @@
-name: Build openwrt-debian image
-
+name: Build openwrt init image
 on:
   repository_dispatch:
   workflow_dispatch:
@@ -8,6 +7,12 @@ on:
         description: "SSH connection to Actions"
         required: true
         default: "false"
+
+env:
+  IMAGE_NAME: openwrt-init
+  DOKCERFILE_DIR: https://github.com/rekey/openwrt/raw/main/Dockerfiles
+  DOKCERFILE_NAME: openwrt-init.Dockerfile
+  GHCR: ghcr.io
 
 jobs:
   build:
@@ -32,12 +37,12 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          wget https://github.com/rekey/docker/raw/master/openwrt-base/Dockerfile
-          docker build . -t ${{ secrets.DOCKER_USER }}/openwrt-debian
+          wget $DOKCERFILE_DIR/$DOKCERFILE_NAME
+          docker build -t $GHCR/${{ secrets.DOCKER_USER }}/$IMAGE_NAME -f ./$DOKCERFILE_NAME .
 
       - name: Push image
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
-          docker push ${{ secrets.DOCKER_USER }}/openwrt-debian
+          docker login $GHCR -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.GHCR_TOKEN }}
+          docker push $GHCR/${{ secrets.DOCKER_USER }}/$IMAGE_NAME

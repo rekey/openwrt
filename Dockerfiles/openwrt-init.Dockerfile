@@ -1,4 +1,4 @@
-FROM rekey/openwrt-builder
+FROM ghcr.io/rekey/openwrt-builder
 
 RUN git clone https://github.com/immortalwrt/immortalwrt
 

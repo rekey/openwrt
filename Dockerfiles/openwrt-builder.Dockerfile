@@ -18,6 +18,7 @@ RUN adduser builder \
     && chown -R builder:builder /home/builder
 
 USER builder
+
 WORKDIR /home/builder
 
 CMD ["/bin/bash"]
